@@ -1,0 +1,83 @@
+# Toolkit Documentation is available online at http://toolkit.helpdocsonline.com/knoa-toolkit-syntax
+
+[knoa.toolkit.]
+    version:1
+
+[toolkit_2.customprops.]
+    documentElement.lang,S
+
+[toolkit_2.detector.application.]
+    #Nombre Aplicacion
+    create,htmldoc,*,-,,set=titulo_aplicacion,detectorAppTitle
+    #Pagina Login
+    create,htmlelement,DIV,login-container,-,,set=login_console,LoginconseleDet
+    #ID Usuario
+    focusout,htmlelement,INPUT,login-form,id*,type=='text',set=nombre_focus,usernameDetA
+    create,htmlelement,INPUT,login-form,id*,type=='text',set=nombre_focus,usernameDetB
+    #Lenguaje Aplicacion
+    create,htmldoc,*,-,!documentElement.lang.isempty,set=lenguaje,languageDet
+    #Version Aplicacion
+    create,htmlelement,DIV,-,console-version,,set=version_aplicacion,AppVersiondet
+
+
+
+[toolkit_2.action.set.application.]
+    titulo_aplicacion=appname,title
+    login_console=loginpage
+    nombre_focus=username,svalue
+    lenguaje=language,documentElement.lang
+    version_aplicacion=appversion,itext
+
+
+[toolkit_2.detector.context.]
+    #Application Container Detectors
+    create,htmlelement,BODY,*,*,,set=appContainerStart,custom_demo_appContainerStart
+    destroy,htmlelement,BODY,*,*,,set=appContainerEnd,custom_demo_appContainerEnd
+
+#Context Name Detectors
+    create,htmlelement,BODY,*,*,,data=custom_demo_contextDataAction,custom_demo_context1{module}
+    create,htmlelement,BODY,*,*,,data=custom_demo_contextHtmlDocTitle,custom_demo_context2{screen}
+
+[toolkit_2.action.data.context.]
+    custom_demo_contextDataAction='demo_context_data_action'
+    custom_demo_contextHtmlDocTitle=htmldoc(1).title|'NA'
+
+[toolkit_2.action.set.context.]
+    appContainerStart=appcontainer,start
+    appContainerEnd=appcontainer,end
+
+[toolkit_2.detector.press.]
+    #mouseup,htmlelement,INPUT,*,*,type=='button',data=custom_demo_pressData,custom_demo_press1
+    #mouseup,htmlelement,BUTTON,*,*,,data=custom_demo_pressData,custom_demo_press2
+    #mouseup,htmlelement,A,*,*,,data=custom_demo_pressData,custom_demo_press3
+
+    #Hipervinculo
+    mouseup,htmlelement,SPAN,-,-,parent(1).isamatch(id=='firstfocus'),data=hipervinculo,consolehipervinculo 
+
+[toolkit_2.action.data.press.]
+    #custom_demo_pressData=value|title|itext|'NA'
+    hipervinculo=itext
+
+[toolkit_2.action.set.press.]
+
+[toolkit_2.detector.message.]
+    create,htmlelement,DIV,StatusMessage,error-message,parent(1).id=='MessageBar',data=custom_demo_messageData,custom_demo_message1
+
+[toolkit_2.action.data.message.]
+    custom_demo_messageData=itext
+
+[toolkit_2.action.set.message.]
+
+[toolkit_2.detector.responseTime.]
+    #Durational Indicator Example 1
+    create,htmlelement,DIV,-,loading_icon,,set=rtStart,custom_demo_rtStartOnCreate1
+    destroy,htmlelement,DIV,-,loading_icon,,set=rtEnd,custom_demo_rtEndOnDestroy1
+
+    #Durational Indicator Example 2
+    propertychange(self,style:visibility,style:visibility=='visible'),htmlelement,DIV,*BusyIndicator,*-busyIndicator,,set=rtStart,custom_demo_rtStartOnPropertyChange1
+    propertychange(self,style:visibility,style:visibility=='hidden'),htmlelement,DIV,*BusyIndicator,*-busyIndicator,,set=rtEnd,custom_demo_rtEndOnPropertyChange1
+
+[toolkit_2.action.set.responseTime.]
+    rtStart=indicatorStart
+    rtEnd=indicatorEnd
+
