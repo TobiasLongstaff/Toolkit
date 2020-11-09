@@ -19,8 +19,6 @@
     #Version Aplicacion
     create,htmlelement,DIV,-,console-version,,set=version_aplicacion,AppVersiondet
 
-
-
 [toolkit_2.action.set.application.]
     titulo_aplicacion=appname,title
     login_console=loginpage
@@ -28,19 +26,22 @@
     lenguaje=language,documentElement.lang
     version_aplicacion=appversion,itext
 
-
 [toolkit_2.detector.context.]
+    #Modulo y pantalla 
+    create,htmlelement,TD,admin-menu-item,*,sibling(1).child(1).isamatch(alt=='On'),data=modulo_activo,modulo{module}
+
     #Application Container Detectors
     create,htmlelement,BODY,*,*,,set=appContainerStart,custom_demo_appContainerStart
     destroy,htmlelement,BODY,*,*,,set=appContainerEnd,custom_demo_appContainerEnd
 
 #Context Name Detectors
-    create,htmlelement,BODY,*,*,,data=custom_demo_contextDataAction,custom_demo_context1{module}
-    create,htmlelement,BODY,*,*,,data=custom_demo_contextHtmlDocTitle,custom_demo_context2{screen}
+    #create,htmlelement,BODY,*,*,,data=custom_demo_contextDataAction,custom_demo_context1{module}
+    #create,htmlelement,BODY,*,*,,data=custom_demo_contextHtmlDocTitle,custom_demo_context2{screen}
 
 [toolkit_2.action.data.context.]
-    custom_demo_contextDataAction='demo_context_data_action'
-    custom_demo_contextHtmlDocTitle=htmldoc(1).title|'NA'
+    #custom_demo_contextDataAction='demo_context_data_action'
+    #custom_demo_contextHtmlDocTitle=htmldoc(1).title|'NA'
+    modulo_activo=child(1).child(1).itext
 
 [toolkit_2.action.set.context.]
     appContainerStart=appcontainer,start
@@ -54,9 +55,13 @@
     #Hipervinculo
     mouseup,htmlelement,SPAN,-,-,parent(1).isamatch(id=='firstfocus'),data=hipervinculo,consolehipervinculo 
 
+    #Botones
+    mouseup,htmlelement,INPUT,-,-,,data=boton,consolboton 
+
 [toolkit_2.action.data.press.]
     #custom_demo_pressData=value|title|itext|'NA'
     hipervinculo=itext
+    boton=itext
 
 [toolkit_2.action.set.press.]
 
