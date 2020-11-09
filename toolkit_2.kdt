@@ -28,20 +28,23 @@
 
 [toolkit_2.detector.context.]
     #Modulo y pantalla 
-    create,htmlelement,TD,admin-menu-item,*,sibling(1).child(1).isamatch(alt=='On'),data=modulo_activo,modulo{module}
-
+    create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_activo,modulo{module}
+    create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_activo,pantalla{screen}
+    create,htmlelement,TD,admin-menu-item,*,sibling(1).child(1).isamatch(alt=='On')&&parent(4).sibling(2).child(2).child(1).child(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_admin_home,modulo2{module}
+    
     #Application Container Detectors
     create,htmlelement,BODY,*,*,,set=appContainerStart,custom_demo_appContainerStart
     destroy,htmlelement,BODY,*,*,,set=appContainerEnd,custom_demo_appContainerEnd
 
-#Context Name Detectors
+    #Context Name Detectors
     #create,htmlelement,BODY,*,*,,data=custom_demo_contextDataAction,custom_demo_context1{module}
     #create,htmlelement,BODY,*,*,,data=custom_demo_contextHtmlDocTitle,custom_demo_context2{screen}
 
 [toolkit_2.action.data.context.]
     #custom_demo_contextDataAction='demo_context_data_action'
     #custom_demo_contextHtmlDocTitle=htmldoc(1).title|'NA'
-    modulo_activo=child(1).child(1).itext
+    modulo_activo=itext
+    modulo_admin_home=child(1).child(1).itext
 
 [toolkit_2.action.set.context.]
     appContainerStart=appcontainer,start
