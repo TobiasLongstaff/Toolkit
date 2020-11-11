@@ -27,28 +27,29 @@
     version_aplicacion=appversion,itext
 
 [toolkit_2.detector.context.]
-    #Modulo y pantalla 
+    #Modulo
     create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_activo,modulo{module}
-    create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_activo,pantalla{screen}
     create,htmlelement,TD,admin-menu-item,*,sibling(1).child(1).isamatch(alt=='On')&&parent(4).sibling(2).child(2).child(1).child(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_admin_home,modulo2{module}
     
-    #Application Container Detectors
-    create,htmlelement,BODY,*,*,,set=appContainerStart,custom_demo_appContainerStart
-    destroy,htmlelement,BODY,*,*,,set=appContainerEnd,custom_demo_appContainerEnd
+    #Pantalla
+    create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_activo,pantalla{screen}
+    create,htmlelement,LI,*selected*,*,,data=sub_pantalla,pantalla2{screen}
 
-    #Context Name Detectors
-    #create,htmlelement,BODY,*,*,,data=custom_demo_contextDataAction,custom_demo_context1{module}
-    #create,htmlelement,BODY,*,*,,data=custom_demo_contextHtmlDocTitle,custom_demo_context2{screen}
+    #Container Start
+    create,htmlelement,TABLE,ddMenu,*,,set=inicio_sistema,inicio_del_sistema
+    destroy,htmlelement,TABLE,ddMenu,*,,set=finalizacion_sistema,finalizacion_del_sistema
 
 [toolkit_2.action.data.context.]
     #custom_demo_contextDataAction='demo_context_data_action'
     #custom_demo_contextHtmlDocTitle=htmldoc(1).title|'NA'
+
     modulo_activo=itext
     modulo_admin_home=child(1).child(1).itext
+    sub_pantalla=itext
 
 [toolkit_2.action.set.context.]
-    appContainerStart=appcontainer,start
-    appContainerEnd=appcontainer,end
+    inicio_sistema=appcontainer,start
+    finalizacion_sistema=appcontainer,end
 
 [toolkit_2.detector.press.]
     #mouseup,htmlelement,INPUT,*,*,type=='button',data=custom_demo_pressData,custom_demo_press1
@@ -57,13 +58,18 @@
 
     #Hipervinculo
     mouseup,htmlelement,SPAN,-,-,parent(1).isamatch(id=='firstfocus'),data=hipervinculo,consolehipervinculo 
+    mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='form-menu-label'),data=hipervinculo2,consolehipervinculo2
+    mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='admin-menu-item'),data=hipervinculo_modulo,consolehipervinculo_modulo
 
     #Botones
-    mouseup,htmlelement,INPUT,-,-,,data=boton,consolboton 
+    mouseup,htmlelement,INPUT,*,*,type=='submit',data=boton,consolboton 
 
 [toolkit_2.action.data.press.]
     #custom_demo_pressData=value|title|itext|'NA'
     hipervinculo=itext
+    hipervinculo2=itext
+    hipervinculo_modulo=itext
+
     boton=itext
 
 [toolkit_2.action.set.press.]
