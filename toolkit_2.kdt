@@ -60,17 +60,38 @@
     mouseup,htmlelement,SPAN,-,-,parent(1).isamatch(id=='firstfocus'),data=hipervinculo,consolehipervinculo 
     mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='form-menu-label'),data=hipervinculo2,consolehipervinculo2
     mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='admin-menu-item'),data=hipervinculo_modulo,consolehipervinculo_modulo
-
+    mousedown,htmlelement,IMG,-,-,alt=='Knoa Console',data=imagen_logo,imagen_logo_home
+    mouseup,htmlelement,A,-,-,parent(5).isamatch(class=='breadcrumbs'),data=sub_menu,sub_menu_console
+    mouseup,htmlelement,SPAN,-,-,parent(4).isamatch(class=='cell')||parent(3).isamatch(class=='cell'),data=hipervinculo_tabla_actions,hipervinculo_de_tabla_actions
+    mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='table-toolbar-cell-profiles'),data=hipervinculo_opciones,hipervinculo_toolbar
+    mouseup,htmlelement,SPAN,-,-,parent(7).isamatch(class=='tree-cell tree'),data=hipervinculo_tabla_package,hipervinculo_de_tabla_package
+    mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='table-toolbar-cell'),data=descargar_logs,descarga_de_logs
+    mousedown,htmlelement,IMG,-,-,alt=='Drill down'||alt=='Details',data=tabla_details,hipervinculo_de_tabla_details
+    mouseup,htmlelement,SPAN,-,-,parent(1).isamatch(class=='ui-menu-colapsed')||parent(1).isamatch(class=='ui-menu-expanded'),data=hipervinculo_welcome,hipervinculo_welcome
+    mouseup,htmlelement,A,w_close,-,,data=hipervinculo_cerrar,hipervinculo_cerrar
+    
     #Botones
-    mouseup,htmlelement,INPUT,*,*,type=='submit',data=boton,consolboton 
+    mouseup,htmlelement,INPUT,*toolbox-form-submit*,*,type=='submit',data=botones_general,consol_botones
+    mouseup,htmlelement,INPUT,*form-input*,*,type=='file',data=botones_examinar,botones_examinar_archivos
 
 [toolkit_2.action.data.press.]
     #custom_demo_pressData=value|title|itext|'NA'
     hipervinculo=itext
     hipervinculo2=itext
     hipervinculo_modulo=itext
+    imagen_logo='Knoa Management Console'
+    sub_menu=itext
+    hipervinculo_tabla_actions=itext
+    hipervinculo_opciones=itext
+    hipervinculo_tabla_package=itext
+    descargar_logs=itext
+    tabla_details=title|'Details'
+    hipervinculo_welcome=itext
+    hipervinculo_cerrar='Cerrar'
 
-    boton=itext
+    botones_general=value|title|itext|'NA'
+    botones_examinar=value|title|itext|'Examinar'
+    
 
 [toolkit_2.action.set.press.]
 
