@@ -32,8 +32,9 @@
     create,htmlelement,TD,admin-menu-item,*,sibling(1).child(1).isamatch(alt=='On')&&parent(4).sibling(2).child(2).child(1).child(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_admin_home,modulo2{module}
     
     #Pantalla
-    create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel'),data=modulo_activo,pantalla{screen}
-    create,htmlelement,LI,*selected*,*,,data=sub_pantalla,pantalla2{screen}
+    create,htmlelement,TD,dashboardTitle,*,!parent(1).sibling(3).child(1).child(1).isamatch(class=='tabpanel')||!parent(1).sibling(4).child(1).isamatch(class=='tabpanel'),data=modulo_activo,pantalla{screen}
+    create,htmlelement,LI,*selected*,*,,data=sub_pantalla_op1,pantalla_op2{screen}
+    create,htmlelement,LI,*ui-state-active*,*,,data=sub_pantalla_op2,pantalla_op3{screen}
 
     #Container Start
     create,htmlelement,TABLE,ddMenu,*,,set=inicio_sistema,inicio_del_sistema
@@ -45,7 +46,8 @@
 
     modulo_activo=itext
     modulo_admin_home=child(1).child(1).itext
-    sub_pantalla=itext
+    sub_pantalla_op1=itext
+    sub_pantalla_op2=itext
 
 [toolkit_2.action.set.context.]
     inicio_sistema=appcontainer,start
@@ -69,12 +71,32 @@
     mousedown,htmlelement,IMG,-,-,alt=='Drill down'||alt=='Details',data=tabla_details,hipervinculo_de_tabla_details
     mouseup,htmlelement,SPAN,-,-,parent(1).isamatch(class=='ui-menu-colapsed')||parent(1).isamatch(class=='ui-menu-expanded'),data=hipervinculo_welcome,hipervinculo_welcome
     mouseup,htmlelement,A,w_close,-,,data=hipervinculo_cerrar,hipervinculo_cerrar
+    mouseup,htmlelement,SPAN,-,-,parent(2).class.matches('tab*'),data=tab_panel,tab_panel_op1
+    mouseup,htmlelement,A,ui-tabs-anchor,*,,data=tab_panel_2,tab_panel_op2
+    mouseup,htmlelement,SPAN,-,-,parent(2).isamatch(class=='ui-menu-item'),data=menu_desplegable,menu_desplegable_detector
     
     #Botones
-    mouseup,htmlelement,INPUT,*toolbox-form-submit*,*,type=='submit',data=botones_general,consol_botones
-    mouseup,htmlelement,INPUT,*form-input*,*,type=='file',data=botones_examinar,botones_examinar_archivos
+    mouseup,htmlelement,INPUT,*toolbox-form-submit*,*,type=='submit',data=botones_general,consol_botones_detector
+    mouseup,htmlelement,INPUT,*form-input*,*,type=='file',data=botones_examinar,botones_examinar_archivos_detector
+    
+    #Checkbox
+    mouseup,htmlelement,INPUT,form-input,*,type=='checkbox',data=checkbox_general_data,checkbox_general_data_detector
+    mouseup,htmlelement,INPUT,form-input,*,type=='checkbox',set=checkbox_general_set,checkbox_general_set_detector
+
+    #Selectlist
+    mouseup,htmlelement,SELECT,*,*,,data=selectlist_general_data,selectlist_general_data_detector
+    mouseup,htmlelement,SELECT,*,*,,set=selectlist_general_set,selectlist_general_set_detector 
+
+    #Radiobutton
+    mouseup,htmlelement,INPUT,*,*,type=='radio',data=radiobutton_general,radiobutton_general_detector
+
+    #Calendario
+    propertychange(self,aria-expanded,aria-expanded=='true'),htmlelement,INPUT,k-input,*,,data=calendario_general,calendario_general_detector
+
 
 [toolkit_2.action.data.press.]
+
+    #hipervinculo
     #custom_demo_pressData=value|title|itext|'NA'
     hipervinculo=itext
     hipervinculo2=itext
@@ -88,20 +110,68 @@
     tabla_details=title|'Details'
     hipervinculo_welcome=itext
     hipervinculo_cerrar='Cerrar'
+    tab_panel=itext
+    tab_panel_2=itext
+    menu_desplegable=itext
 
+    #Checkbox
+    checkbox_general_data='Checkbox',pre=checkbox_general_set
+
+    #Botones
     botones_general=value|title|itext|'NA'
     botones_examinar=value|title|itext|'Examinar'
+
+    #Selectlist
+    selectlist_general_data='Selectlist',pre=selectlist_general_set
+
+    #Radiobutton
+    radiobutton_general=nextElementSibling.itext
+
+    #Calendario
+    calendario_general='Calendario'
     
 
 [toolkit_2.action.set.press.]
+    checkbox_general_set=details,self,Click=checked
+    selectlist_general_set=elementText,self,findchild(selected=='selected').itext
+
 
 [toolkit_2.detector.message.]
-    create,htmlelement,DIV,StatusMessage,error-message,parent(1).id=='MessageBar',data=custom_demo_messageData,custom_demo_message1
+    #create,htmlelement,DIV,StatusMessage,error-message,parent(1).id=='MessageBar',data=custom_demo_messageData,custom_demo_message1
+    
+    #Mensaje error
+    create,htmlelement,DIV,*jGrowl-ERROR*,*,,data=mensaje_error_data,mensaje_error_data_detector
+    create,htmlelement,DIV,*jGrowl-ERROR*,*,,set=mensaje_error_set,mensaje_error_set_detector
+
+    #Mensaje de advertencia
+    create,htmlelement,DIV,*jGrowl-WARN*,*,,data=mensaje_warn_data,mensaje_warn_data_detector
+    create,htmlelement,DIV,*jGrowl-WARN*,*,,set=mensaje_warn_set,mensaje_warn_set_detector
+
+    #mensaje informativo
+    create,htmlelement,DIV,*jGrowl-INFO*,*,,data=mensaje_info_data,mensaje_info_data_detector
+    create,htmlelement,DIV,*jGrowl-INFO*,*,,set=mensaje_info_set,mensaje_info_set_detector
 
 [toolkit_2.action.data.message.]
-    custom_demo_messageData=itext
+
+    #Mensaje error
+    mensaje_error_data=child(3).itext,pre=mensaje_error_set
+
+    #Mensaje de advertencia
+    mensaje_warn_data=child(3).itext,pre=mensaje_warn_set
+
+    #mensaje informativo
+    mensaje_info_data=child(3).itext,pre=mensaje_info_set
 
 [toolkit_2.action.set.message.]
+
+    #Mensaje error
+    mensaje_error_set=details,self,Message='Error'
+
+    #Mensaje de advertencia
+    mensaje_warn_set=details,self,Message='Advertencia'
+
+    #mensaje informativo
+    mensaje_info_set=details,self,Message='informativo'
 
 [toolkit_2.detector.responseTime.]
     #Durational Indicator Example 1
